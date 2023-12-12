@@ -1,0 +1,8 @@
+#For DAGs
+pandas==1.4.1
+numpy~=1.21.4
+scikit-learn==1.1.2
+requests~=2.26.0
+# For DB Migration and Integration
+psycopg2-binary==2.9.5 # For Postgres
+sqlalchemy==1.4.24
