@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta
 from airflow import DAG
-from airflow.sensors.external_task import ExternalTaskSensor
 from airflow.operators.python_operator import PythonOperator
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
+
 import pandas as pd
 import pickle
 import logging
@@ -140,24 +141,18 @@ save_predictions_task = PythonOperator(
     dag=dag
 )
 
-# Diğer iki DAG'den birinin görevi başarılı bir şekilde tamamlanana kadar bekleyecek
-wait_for_dag1 = ExternalTaskSensor(
-    task_id='wait_for_dag1',
-    external_dag_id='fetch_and_store_consumption_data',  # İlk DAG'in ID'si
-    external_task_id='fetch_and_store_data',  # İlk DAG'deki bir görevin ID'si
-    execution_delta=None,  # Görev zamanlama farkı
+trigger_consumption_data_dag_task = TriggerDagRunOperator(
+    task_id='trigger_consumption_data_dag',
+    trigger_dag_id='fetch_and_store_consumption_data',
     dag=dag,
 )
 
-wait_for_dag2 = ExternalTaskSensor(
-    task_id='wait_for_dag2',
-    external_dag_id='fetch_and_store_mcp_data',  # İkinci DAG'in ID'si
-    external_task_id='fetch_and_store_data',  # İkinci DAG'deki bir görevin ID'si
-    execution_delta=None,  # Görev zamanlama farkı
+trigger_price_data_dag_task = TriggerDagRunOperator(
+    task_id='trigger_price_data_dag',
+    trigger_dag_id='fetch_and_store_mcp_data',
     dag=dag,
 )
-
-wait_for_dag1 >> wait_for_dag2 >> load_data_task >> create_features_task >> make_predictions_task >> save_predictions_task
+trigger_consumption_data_dag_task >> trigger_price_data_dag_task >> load_data_task >> create_features_task >> make_predictions_task >> save_predictions_task
 
 if __name__ == "__main__":
     dag.cli()
