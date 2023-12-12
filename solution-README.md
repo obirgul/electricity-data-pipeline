@@ -1,3 +1,11 @@
+## **Project Summary**
+
+This project is a small-scale demonstration of handling energy-related data tasks. It covers collecting data from specific APIs, cleaning and understanding it with Pandas, creating a basic model using scikit-learn, and setting up Airflow to automate some of these tasks. The project also involves using SQLAlchemy to work with a database and creating a simple dashboard with Streamlit. Overall, it's a compact showcase of basic data handling and automation techniques applied to energy-related information. 
+
+Unfortunately, due to the unavailability of geographic data compatible with the dataset, the inclusion of PostGIS in the data analysis part wasn't feasible. Similarly, dbt wasn't incorporated in this solution due to time constraints. Instead, direct Python functions were issued for data manipulation within the pipeline to efficiently achieve the project's objectives within the timeframe.
+
+In this project, I strived to create an optimal solution aligned with the given objectives. Despite constraints, I aimed to exhibit a streamlined process of collecting, cleaning, and analyzing energy-related data. My focus was on efficiency, showing ways to handle data that fit the project's size and timeline.
+
 ## **Tasks Completed**
 
 ### **Part 1: Data Collection and Manipulation**
@@ -39,7 +47,7 @@ To run the project locally, follow these steps
 2. **Navigate to Project Directory**:
     
     ```bash
-    cd energy-data-analysis
+    cd <project-directory>
     ```
     
 3. **Start the Application**:
@@ -53,10 +61,12 @@ Simply execute the following command to build and start the Docker containers:
     
 4. **Access the Application**:
     
-    Airflow Web Server: Access the Airflow interface at **`http://localhost:8080`** to interact with the workflow orchestration and monitoring tools.
+    Airflow Web Server: Access the Airflow interface at **`http://localhost:8080`** to interact with the workflow orchestration and monitoring tools. The default username and password are both `admin`.
     
     Streamlit Dashboard App: Navigate to **`http://localhost:9101`** to access the Streamlit-powered dashboard application for data analysis and visualization.
-    
+
+   Project PostgreSQL Database: Access the Postgres database at **`postgresql://myuser:mypassword@postgres:1234/mydatabase`**. 
+
 5. **Shutting Down the Application**:
 To stop the application and terminate the running containers, run:
     
