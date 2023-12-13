@@ -14,7 +14,7 @@ from scripts.models import PriceData
 default_args = {
     'owner': 'orcun.birgul',
     'depends_on_past': False,
-    'start_date': datetime(2023, 11, 6),  # get start_date from env variable
+    'start_date': datetime(2023, 11, 6),
     'retries': 1,
     'retry_delay': timedelta(minutes=2),
     'tags': ['ETL'],

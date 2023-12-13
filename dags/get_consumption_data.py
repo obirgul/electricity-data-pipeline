@@ -20,7 +20,7 @@ default_args = {
 dag = DAG('fetch_and_store_consumption_data',
           default_args=default_args,
           description="Fetches and stores electricity consumption data from EPIAS API.",
-          schedule_interval='1 * * * *',  # Saatlik çalıştırma
+          schedule_interval='1 * * * *',  # hourly
           catchup=False,
           max_active_runs=1)
 

@@ -3,6 +3,7 @@ from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 
+import os
 import pandas as pd
 import pickle
 import logging
@@ -13,8 +14,7 @@ from scripts.models import PredictionScenario, PredictionResult
 
 
 def load_data_from_postgres():
-    # db_uri = "postgresql+psycopg2://myuser:mypassword@localhost:1234/mydatabase"
-    db_uri = "postgresql+psycopg2://myuser:mypassword@my-postgres-db:5432/mydatabase"
+    db_uri = os.getenv("LOCAL_POSTGRES_URI")
     engine = create_engine(db_uri)
 
     end_date = datetime.now()
@@ -76,8 +76,7 @@ def make_predictions(**kwargs):
 def save_predictions(**kwargs):
     df = kwargs['ti'].xcom_pull(task_ids='make_predictions')
 
-    # db_uri = "postgresql+psycopg2://myuser:mypassword@localhost:1234/mydatabase"
-    db_uri = "postgresql+psycopg2://myuser:mypassword@my-postgres-db:5432/mydatabase"
+    db_uri = os.getenv("LOCAL_POSTGRES_URI")
     engine = create_engine(db_uri)
 
     scenario = {'modelName': 'HistGradientBoostingRegressor', 'description': 'SYSTEM GENERATED'}
