@@ -1,4 +1,4 @@
-# import os
+import os
 import pickle
 from sqlalchemy import create_engine
 import pandas as pd
@@ -7,9 +7,8 @@ from sklearn.metrics import mean_squared_error
 
 
 def load_data_from_postgres():
-    # Establish connection to the database
-    # db_uri = os.environ['LOCAL_POSTGRES_URI']
-    db_uri = "postgresql+psycopg2://myuser:mypassword@localhost:1234/mydatabase"
+    db_uri = os.environ['LOCAL_POSTGRES_URI']
+    # db_uri = "postgresql+psycopg2://myuser:mypassword@localhost:1234/mydatabase"
     engine = create_engine(db_uri)
 
     sql_query = """
@@ -32,7 +31,7 @@ def load_data_from_postgres():
 
 
 def train_random_forest_model(df):
-    target_variable = 'price'  # Choose the target variable based on your lag values
+    target_variable = 'price'
 
     X = df.drop(target_variable, axis=1)  # Drop the target variable from the DataFrame to get the features
     y = df[target_variable]
@@ -67,7 +66,6 @@ def test_model_and_save(random_forest, df):
     pickle.dump(random_forest, open("model.pkl", "wb"))
 
 
-# Main function performing the operations
 def main():
     # Load data
     data = load_data_from_postgres()
