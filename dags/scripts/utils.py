@@ -1,15 +1,12 @@
 import os
 import logging
 from datetime import datetime, timedelta
-from sqlalchemy import create_engine, func  # , Column, String, Integer, DateTime  # , MetaData
+from sqlalchemy import create_engine, func
 from sqlalchemy.orm import sessionmaker
-from airflow.models import Variable
 
 from scripts.models import Base
 
 db_uri = os.environ.get('LOCAL_POSTGRES_URI')
-# db_uri = "postgresql+psycopg2://myuser:mypassword@my-postgres-db:5432/mydatabase"
-# db_uri = Variable.get("LOCAL_POSTGRES_URI")
 engine = create_engine(db_uri)
 logging.info("Connected to database.")
 # Create table if not exists
